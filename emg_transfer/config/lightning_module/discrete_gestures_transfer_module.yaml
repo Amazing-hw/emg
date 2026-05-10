@@ -1,0 +1,33 @@
+_target_: emg_transfer.lightning.DiscreteGesturesModule
+
+optimizer:
+  _target_: torch.optim.Adam
+  lr: 5e-4
+  _partial_: true
+
+# -- Network: Transfer model --
+network:
+  _target_: emg_transfer.networks.Emg2PoseTdsGestureArchitecture
+  # encoder is built automatically by build_tds_network()
+  # Or specify one explicitly:
+  # encoder:
+  #   _target_: emg_transfer.networks.build_tds_network
+  lstm_hidden: 128
+  output_channels: 9
+
+# -- Original baseline (uncomment to run baseline) --
+# network:
+#   _target_: emg_transfer.networks.DiscreteGesturesArchitecture
+#   output_channels: 9
+
+learning_rate: 5e-4
+lr_scheduler_milestones: [25]
+lr_scheduler_factor: 0.5
+warmup_start_factor: 0.001
+warmup_end_factor: 1.0
+warmup_total_epochs: 5
+gradient_clip_val: 0.5
+
+# Transfer learning
+freeze_backbone_epochs: 5
+backbone_lr_ratio: 0.02  # backbone LR = learning_rate * backbone_lr_ratio

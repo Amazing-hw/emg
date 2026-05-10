@@ -1,0 +1,51 @@
+# Data files (large)
+*.hdf5
+*.tar
+*.tar.gz
+
+# Model checkpoints
+*.ckpt
+*.pt
+
+# Training logs
+logs/
+training_output.log
+lightning_logs/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.eggs/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Hydra outputs
+outputs/
+multirun/
+
+# Downloaded datasets
+emg_data/
+emg2pose_data/
+emg2pose_dataset/
+
+# Checkpoint directories
+emg2pose_model_checkpoints/
+
+# Temporary
+*.tmp
+*.swp
+._*
+
+# Claude
+.claude/
+
+# Conda env
+*.yml
