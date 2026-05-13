@@ -27,9 +27,13 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-# Hydra outputs
-outputs/
+# Hydra outputs (training logs)
+emg_transfer/logs/
+emg_nature/**/outputs/
 multirun/
+
+# emg_chnse cache (large pickle files)
+emg_chnse/outputs/cache/
 
 # Downloaded datasets
 emg_data/
