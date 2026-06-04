@@ -1,0 +1,38 @@
+defaults:
+- _self_
+- data_module: discrete_gestures_data_module
+- data_module/data_split: discrete_gestures_split
+- lightning_module: discrete_gestures_transfer_module
+data_location: D:/emg/emg_nature/emg_data
+task: discrete_gestures
+seed: 0
+train: true
+eval: true
+num_nodes: 1
+trainer:
+  max_epochs: 250
+  accelerator: gpu
+  devices: 1
+monitor_metric: val_accuracy
+monitor_mode: max
+callbacks:
+- _target_: pytorch_lightning.callbacks.LearningRateMonitor
+- _target_: pytorch_lightning.callbacks.ModelCheckpoint
+  monitor: ${monitor_metric}
+  mode: ${monitor_mode}
+  save_last: true
+  verbose: true
+pretrained_encoder_ckpt: D:/emg/emg2pose1/emg2pose_model_checkpoints/tracking_vemg2pose.ckpt
+hydra:
+  run:
+    dir: logs/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: ${hydra.run.dir}
+    subdir: ${hydra.job.num}_${hydra.job.override_dirname}/seed=${seed}
+  output_subdir: hydra_configs
+  job:
+    name: discrete-gestures-transfer
+    config:
+      override_dirname:
+        exclude_keys:
+        - seed

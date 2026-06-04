@@ -1,0 +1,29 @@
+# SSL Fine-tuning Module config (reduced size for RTX 2060 6GB)
+_target_: emg_transfer.lightning.DiscreteGesturesModule
+
+optimizer:
+  _target_: torch.optim.Adam
+  lr: 5e-4
+  _partial_: true
+
+network:
+  _target_: emg_transfer.ssl_finetune.SslGestureArchitecture
+  num_conformer_layers: 4
+  context_dim: 256
+  num_heads: 4
+  conv_kernel_size: 15
+  dropout: 0.1
+  num_classes: 9
+  lstm_hidden: 128
+  use_lstm_head: true
+
+learning_rate: 5e-4
+lr_scheduler_milestones: [25]
+lr_scheduler_factor: 0.5
+warmup_start_factor: 0.001
+warmup_end_factor: 1.0
+warmup_total_epochs: 5
+gradient_clip_val: 0.5
+
+freeze_backbone_epochs: 5
+backbone_lr_ratio: 0.02

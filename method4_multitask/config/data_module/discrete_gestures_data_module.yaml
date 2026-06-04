@@ -1,0 +1,16 @@
+_target_: emg_transfer.data_module.WindowedEmgDataModule
+window_length: 16_000  # 8 seconds at 2kHz
+stride: 16_000         # match window_length to minimize overlapping samples
+batch_size: 4          # small for RTX 2060 6GB VRAM
+num_workers: 0
+
+transform:
+  _target_: emg_transfer.transforms.DiscreteGesturesTransform
+  # 40 ms pulses centered 100 ms after the event
+  pulse_window: [0.08, 0.12]
+
+data_location: ${data_location}
+
+emg_augmentation:
+  _target_: emg_transfer.augmentation.RotationAugmentation
+  rotation: 2
